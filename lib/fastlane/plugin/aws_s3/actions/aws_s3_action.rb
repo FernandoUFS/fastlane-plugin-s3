@@ -61,7 +61,7 @@ module Fastlane
         params[:override_file_name] = config[:override_file_name]
         params[:files] = config[:files]
         params[:folder] = config[:folder]
-        params[:include_folder] = config[:include_folder] || false
+        params[:include_folder] = config[:include_folder]
 
         # Pulling parameters for other uses
         s3_region = params[:region]
@@ -817,6 +817,11 @@ module Fastlane
                                        is_string: true,
                                        optional: true,
                                        default_value: nil)
+          FastlaneCore::ConfigItem.new(key: :folder,
+                                       env_name: "",
+                                       description: "Include own folder to upload or just children",
+                                       optional: true,
+                                       default_value: false)
         ]
       end
 
