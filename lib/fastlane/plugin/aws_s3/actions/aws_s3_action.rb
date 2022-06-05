@@ -816,7 +816,7 @@ module Fastlane
                                        description: "Path to the folder you want to upload",
                                        is_string: true,
                                        optional: true,
-                                       default_value: nil)
+                                       default_value: nil),
           FastlaneCore::ConfigItem.new(key: :include_folder,
                                        env_name: "",
                                        description: "Include own folder to upload or just children",
