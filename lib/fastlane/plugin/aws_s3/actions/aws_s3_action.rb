@@ -61,6 +61,7 @@ module Fastlane
         params[:override_file_name] = config[:override_file_name]
         params[:files] = config[:files]
         params[:folder] = config[:folder]
+        params[:include_folder] = config[:include_folder] || false
 
         # Pulling parameters for other uses
         s3_region = params[:region]
@@ -79,6 +80,7 @@ module Fastlane
         dsym_file = params[:dsym]
         s3_path = params[:path]
         acl     = params[:acl].to_sym
+        include_folder = params[:include_folder]
         server_side_encryption = params[:server_side_encryption]
 
         UI.user_error!("No S3 bucket given, pass using `bucket: 'bucket'`") unless s3_bucket.to_s.length > 0
@@ -103,7 +105,7 @@ module Fastlane
         upload_apk(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, apk_file, release_notes, s3_path, acl, server_side_encryption) if apk_file.to_s.length > 0
         upload_xcarchive(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, ipa_file, xcarchive_file, s3_path, acl, server_side_encryption) if xcarchive_file.to_s.length > 0
         upload_files(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, files, s3_path, acl, server_side_encryption) if files.to_a.count > 0
-        upload_folder(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, folder, s3_path, acl, server_side_encryption) if folder.to_s.length > 0
+        upload_folder(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, folder, s3_path, acl, server_side_encryption, include_folder) if folder.to_s.length > 0
 
         return true
       end
@@ -538,11 +540,14 @@ module Fastlane
         end
       end
 
-      def self.upload_folder(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, folder, s3_path, acl, server_side_encryption)
+      def self.upload_folder(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, folder, s3_path, acl, server_side_encryption, include_folder)
 
         s3_path = "files" unless s3_path
 
-        s3_path = s3_path.to_s + '/' + File.basename(folder)
+        s3_path = s3_path.to_s
+        if include_folder
+          s3_path += '/' + File.basename(folder)
+        end
         url_part = s3_path
         app_directory = params[:app_directory]
 

@@ -52,6 +52,7 @@ aws_s3(
   upload_metadata: true,                          # Upload version.json, plist and HTML. Set to false to skip uploading of these files.
   version_file_name: 'app_version.json',          # Name of the file to upload to S3. Defaults to 'version.json'
   version_template_path: 'path/to/erb'            # Path to an ERB to configure the structure of the version JSON file
+  include_folder                                  # true to upload files in sub-folder or false to upload files without root folder
 )
 ```
 
