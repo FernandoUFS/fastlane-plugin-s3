@@ -542,11 +542,10 @@ module Fastlane
 
       def self.upload_folder(s3_client, params, s3_region, s3_access_key, s3_secret_access_key, s3_bucket, folder, s3_path, acl, server_side_encryption, include_folder)
 
-        s3_path = "files" unless s3_path
+        s3_path = "" unless s3_path
 
-        s3_path = s3_path.to_s
         if include_folder
-          s3_path += '/' + File.basename(folder)
+          s3_path += File.basename(folder)+'/'
         end
         url_part = s3_path
         app_directory = params[:app_directory]
@@ -562,7 +561,7 @@ module Fastlane
           next if File.directory?(file)
           file_data = File.open(file, 'rb')
           file_relative_path_to_folder = Pathname.new(File.expand_path(file)).relative_path_from(Pathname.new(File.expand_path(folder))).to_s
-          file_name = url_part + '/' + file_relative_path_to_folder
+          file_name = url_part + file_relative_path_to_folder
 
           file_url = self.upload_file(s3_client, s3_bucket, app_directory, file_name, file_data, acl, server_side_encryption, download_endpoint, download_endpoint_replacement_regex)
           Actions.lane_context[SharedValues::S3_FOLDER_OUTPUT_PATH] = CGI.unescape(file_url).gsub('/' + file_relative_path_to_folder, '')

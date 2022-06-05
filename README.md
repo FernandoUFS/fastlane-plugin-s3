@@ -48,7 +48,7 @@ aws_s3(
 
   app_directory: 'ios_or_android',                # Optional but nice if you want to put multiple apps in same bucket
 
-  path: 'v{CFBundleShortVersionString}_b{CFBundleVersion}/', # This is actually the default.
+  path: 'path_to_upload/',                        # The default is the root of bucket, you must put / at final
   upload_metadata: true,                          # Upload version.json, plist and HTML. Set to false to skip uploading of these files.
   version_file_name: 'app_version.json',          # Name of the file to upload to S3. Defaults to 'version.json'
   version_template_path: 'path/to/erb'            # Path to an ERB to configure the structure of the version JSON file
