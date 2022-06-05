@@ -817,7 +817,7 @@ module Fastlane
                                        is_string: true,
                                        optional: true,
                                        default_value: nil)
-          FastlaneCore::ConfigItem.new(key: :folder,
+          FastlaneCore::ConfigItem.new(key: :include_folder,
                                        env_name: "",
                                        description: "Include own folder to upload or just children",
                                        optional: true,
