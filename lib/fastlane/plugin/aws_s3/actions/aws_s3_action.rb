@@ -821,6 +821,7 @@ module Fastlane
                                        env_name: "",
                                        description: "Include own folder to upload or just children",
                                        optional: true,
+                                       is_string: false,
                                        default_value: false)
         ]
       end
